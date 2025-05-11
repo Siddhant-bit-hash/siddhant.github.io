@@ -21,8 +21,12 @@
             font-family: 'Roboto', sans-serif;
             background-color: var(--bg-dark);
             color: var(--text-light);
-            overflow-x: hidden; /* Prevents horizontal scrollbars - good fallback */
+            overflow-x: hidden; /* Crucial for preventing horizontal scroll on body */
             line-height: 1.7;
+            box-sizing: border-box; /* Ensure padding/border don't add to width */
+        }
+        *, *::before, *::after {
+            box-sizing: inherit; /* Inherit box-sizing for all elements */
         }
 
         /* Neural network background animation */
@@ -37,12 +41,12 @@
 
         .section-title {
             font-family: 'Roboto Mono', monospace;
-            font-size: 2.5rem;
+            font-size: 2.2rem; /* Base size for mobile-first */
             font-weight: 700;
             color: var(--primary-color);
             text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 2.5rem;
+            letter-spacing: 1.5px; /* Adjusted spacing */
+            margin-bottom: 2rem; /* Adjusted margin */
             text-align: center;
             position: relative;
             opacity: 0;
@@ -52,11 +56,11 @@
         .section-title::after {
             content: '';
             position: absolute;
-            bottom: -10px;
+            bottom: -8px; /* Adjusted position */
             left: 50%;
             transform: translateX(-50%);
-            width: 0; /* Animated width */
-            height: 3px;
+            width: 0; 
+            height: 2.5px; /* Adjusted thickness */
             background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
             transition: width 0.8s ease-out 0.3s;
         }
@@ -65,16 +69,15 @@
             transform: translateY(0);
         }
         .section-title.is-visible::after {
-            width: 60%; /* MODIFIED: Use percentage of the title's width */
-            max-width: 100px; /* MODIFIED: But cap it at 100px */
+            width: 50%; 
+            max-width: 80px; /* Further reduced max-width for underline */
         }
 
-
         .content-card {
-            background-color: rgba(22, 27, 41, 0.85); /* var(--bg-medium) with opacity */
+            background-color: rgba(22, 27, 41, 0.85); 
             backdrop-filter: blur(10px);
             border: 1px solid rgba(0, 169, 255, 0.2);
-            padding: 1.5rem; /* Slightly reduced padding for general cards, can be overridden by specific sections */
+            padding: 1.25rem; /* Base padding */
             margin-bottom: 1.5rem;
             border-radius: 8px;
             opacity: 0;
@@ -90,31 +93,20 @@
             opacity: 1;
             transform: scale(1) translateY(0);
         }
-        /* Specific padding for larger content cards if needed, or use Tailwind utilities */
-        .profile-card-padding { /* Example if you need larger padding for specific cards */
-             padding: 2rem;
-        }
-
-
+        
         .hero-section {
-            min-height: 100vh; /* Ensures hero takes full viewport height */
+            min-height: 100vh; 
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 1rem; /* Reduced padding for very small screens */
-            position: relative; /* For canvas positioning */
+            padding: 1rem; 
+            position: relative; 
         }
-         @media (min-width: 640px) { /* sm breakpoint */
-            .hero-section {
-                padding: 2rem; /* Restore original padding for sm and up */
-            }
-        }
-
-
+        
         .hero-name {
-            font-size: 2.8rem; /* Adjusted base size slightly */
+            font-size: 2rem; /* Base for mobile */
             font-weight: 700;
             color: var(--text-light);
             margin-bottom: 0.5rem;
@@ -124,22 +116,22 @@
         }
         .hero-title {
             font-family: 'Roboto Mono', monospace;
-            font-size: 1.4rem; /* Adjusted base size slightly */
+            font-size: 1.1rem; /* Base for mobile */
             color: var(--primary-color);
             margin-bottom: 1.5rem;
             opacity: 0;
             animation: fadeInSlideUp 1s ease-out 0.3s forwards;
         }
         .hero-subtitle {
-            font-size: 1rem; /* Adjusted base size slightly */
+            font-size: 0.9rem; /* Base for mobile */
             color: var(--text-medium);
-            max-width: 600px; /* Constrains width on larger screens */
-            margin-left: auto; /* Centering max-width element */
-            margin-right: auto; /* Centering max-width element */
+            max-width: 90vw; /* Use viewport width percentage */
+            margin-left: auto; 
+            margin-right: auto; 
             opacity: 0;
             animation: fadeInSlideUp 1s ease-out 0.6s forwards;
-            padding-left: 0.5rem; /* Ensure text doesn't touch edges on very small screens */
-            padding-right: 0.5rem;
+            padding-left: 0.25rem; 
+            padding-right: 0.25rem;
         }
         
         @keyframes fadeInSlideUp {
@@ -147,47 +139,45 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Navigation */
         .main-nav {
-            position: sticky; /* Keeps nav at the top on scroll */
+            position: sticky; 
             top: 0;
             z-index: 1000;
-            background-color: rgba(12, 17, 29, 0.85); /* var(--bg-dark) with opacity */
+            background-color: rgba(12, 17, 29, 0.85); 
             backdrop-filter: blur(12px);
-            padding: 1rem 0;
+            padding: 0.75rem 0; /* Reduced padding */
             border-bottom: 1px solid rgba(0, 169, 255, 0.15);
         }
         .nav-link {
             font-family: 'Roboto Mono', monospace;
             color: var(--text-medium);
-            padding: 0.5rem 0.75rem; /* Slightly reduced padding for nav links */
+            padding: 0.4rem 0.6rem; /* Reduced padding */
             border-radius: 4px;
             transition: color 0.3s ease, background-color 0.3s ease;
             text-transform: uppercase;
-            font-size: 0.85rem; /* Slightly reduced font size for nav links */
+            font-size: 0.75rem; /* Reduced font size */
+            white-space: nowrap; /* Prevent link text from wrapping */
         }
         .nav-link:hover, .nav-link.active {
             color: var(--primary-color);
             background-color: rgba(0, 169, 255, 0.1);
         }
 
-        /* Skills styling */
         .skill-grid {
             display: grid;
-            /* Responsive grid: columns adjust to fit, with a minimum width of 120px for better mobile fit */
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 1rem; /* Reduced gap slightly */
+            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); /* Base for mobile */
+            gap: 0.75rem; 
         }
         .skill-node {
             background-color: var(--bg-medium);
-            padding: 1rem 0.75rem; /* Adjusted padding */
+            padding: 0.75rem 0.5rem; 
             border-radius: 6px;
             text-align: center;
             font-weight: 500;
             color: var(--text-light);
             border: 1px solid rgba(0, 169, 255, 0.2);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            font-size: 0.9rem; /* Ensure text fits */
+            font-size: 0.8rem; 
         }
         .skill-node:hover {
             transform: translateY(-5px) scale(1.05);
@@ -195,13 +185,12 @@
             color: var(--primary-color);
         }
         .skill-node svg { 
-            width: 24px; /* Adjusted icon size */
-            height: 24px;
-            margin: 0 auto 0.5rem auto;
+            width: 20px; 
+            height: 20px;
+            margin: 0 auto 0.4rem auto;
             color: var(--primary-color);
         }
 
-        /* Timeline for Experience/Education */
         .timeline {
             position: relative;
             max-width: 800px; 
@@ -210,12 +199,12 @@
         .timeline::after { 
             content: '';
             position: absolute;
-            width: 3px;
+            width: 2.5px; /* Thinner line */
             background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
             top: 0;
             bottom: 0;
-            left: 50%;
-            margin-left: -1.5px;
+            left: 15px; /* Default for mobile */
+            margin-left: -1.25px; /* Half of width */
             opacity: 0;
             animation: drawLine 1s ease-out forwards;
             animation-delay: 0.5s; 
@@ -227,10 +216,10 @@
         }
 
         .timeline-item {
-            padding: 10px 20px; /* Reduced horizontal padding */
+            padding: 8px 15px 8px 35px; /* Adjusted padding for mobile */
             position: relative;
             background-color: transparent;
-            width: 50%; 
+            width: 100%; /* Mobile default */
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.6s ease-out, transform 0.6s ease-out;
@@ -239,148 +228,138 @@
             opacity: 1;
             transform: translateY(0);
         }
-        .timeline-item:nth-child(odd) { left: 0; } 
-        .timeline-item:nth-child(even) { left: 50%; } 
-
+      
         .timeline-item::after { 
             content: '';
             position: absolute;
-            width: 16px; /* Slightly smaller dot */
-            height: 16px;
-            right: -8px; 
+            width: 12px; /* Smaller dot */
+            height: 12px;
+            left: 9px; /* Adjusted for new line position and smaller dot */
             background-color: var(--bg-dark);
-            border: 3px solid var(--primary-color);
-            top: 25px;
+            border: 2.5px solid var(--primary-color);
+            top: 20px; /* Adjusted top position */
             border-radius: 50%;
             z-index: 1;
-            box-shadow: 0 0 10px var(--accent-glow);
+            box-shadow: 0 0 8px var(--accent-glow); /* Reduced glow */
         }
-        .timeline-item:nth-child(even)::after { left: -8px; }
-        
+                
         .timeline-content {
-            padding: 1.25rem; /* Slightly reduced padding */
+            padding: 1rem; 
             background-color: var(--bg-medium);
             position: relative;
-            border-radius: 8px;
+            border-radius: 6px; /* Slightly smaller radius */
             border: 1px solid rgba(0, 169, 255, 0.2);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* Softer shadow */
         }
         .timeline-content h3 {
             color: var(--primary-color);
             font-weight: 700;
-            font-size: 1.1rem; /* Ensure heading fits */
+            font-size: 1rem; 
         }
         .timeline-date {
             font-family: 'Roboto Mono', monospace;
             color: var(--text-medium);
-            font-size: 0.85rem;
-            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+            margin-bottom: 0.4rem;
             display: block;
         }
+        .timeline-content ul li, .timeline-content p {
+            font-size: 0.85rem; /* Smaller text in timeline items */
+        }
 
-        /* Project cards */
+
         .project-grid {
             display: grid;
-            /* MODIFIED: Reduced minmax for better fit on small screens with padding */
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); /* Further reduced min */
-            gap: 1.5rem; /* Reduced gap */
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); /* Base for mobile */
+            gap: 1.25rem; 
         }
-        .project-card .content-card { /* Target content-card specifically within project-card if needed */
-            padding: 1.25rem; /* Consistent padding with timeline-content */
+        .project-card .content-card { 
+            padding: 1rem; 
         }
         .project-card h3 {
             color: var(--primary-color);
-            font-size: 1.2rem; /* Adjusted font size */
+            font-size: 1.1rem; 
             font-weight: 700;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
         }
-        .project-card .text-text-medium { /* Target description text */
-            font-size: 0.9rem; /* Adjust description font size */
+        .project-card .text-text-medium { 
+            font-size: 0.85rem; 
         }
         .project-card .kaggle-rank {
             font-family: 'Roboto Mono', monospace;
-            font-size: 0.85rem; /* Adjusted font size */
+            font-size: 0.8rem; 
             color: var(--secondary-color);
             font-weight: 500;
-            margin-top: 0.75rem;
+            margin-top: 0.6rem;
             display: block;
         }
 
-        /* Contact Button */
         .btn-primary {
             background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
             color: white;
-            padding: 0.75rem 1.5rem; /* Adjusted padding */
+            padding: 0.6rem 1.2rem; 
             border-radius: 5px;
             font-weight: 500;
             text-decoration: none;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             display: inline-block;
             border: none;
-            font-size: 0.95rem; /* Adjusted font size */
+            font-size: 0.9rem; 
         }
         .btn-primary:hover {
             transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 10px 20px rgba(var(--accent-glow), 0.5);
+            box-shadow: 0 8px 15px rgba(var(--accent-glow), 0.4); /* Adjusted shadow */
         }
 
-        /* Responsive adjustments for smaller screens */
-        @media (max-width: 768px) { /* md breakpoint, default Tailwind */
-            .hero-name { font-size: 2.2rem; }
-            .hero-title { font-size: 1.15rem; }
-            .section-title { font-size: 1.8rem; }
-            
-            .timeline::after { 
-                left: 15px; /* Adjust line position for smaller padding */
-                margin-left: 0;
-            }
-            .timeline-item { 
-                width: 100%; 
-                padding-left: 40px; /* Space for the line and dot, adjusted */
-                padding-right: 10px; 
-            }
-            .timeline-item:nth-child(even) { 
-                left: 0%; 
-            }
-            .timeline-item::after, .timeline-item:nth-child(even)::after { 
-                left: 6px; /* Adjust dot position for new line and smaller dot */
-                right: auto;
-                width: 14px;
-                height: 14px;
-            }
-            
-            .main-nav .container { 
-                flex-direction: column; 
-                gap: 0.5rem; 
-            }
-            .main-nav .flex.space-x-3 { /* Target the nav links container specifically on mobile */
-                flex-wrap: wrap; /* Allow nav links to wrap if they still don't fit */
-                justify-content: center; /* Center wrapped links */
-                gap: 0.5rem; /* Add gap for wrapped links */
-            }
+        /* Larger screen adjustments (sm breakpoint and up) */
+        @media (min-width: 640px) { /* sm */
+            .section-title { font-size: 2.5rem; letter-spacing: 2px; margin-bottom: 2.5rem; }
+            .section-title::after { bottom: -10px; height: 3px; max-width: 100px;}
+            .content-card { padding: 1.5rem; }
+            .hero-section { padding: 2rem; }
+            .hero-name { font-size: 2.8rem; }
+            .hero-title { font-size: 1.4rem; }
+            .hero-subtitle { font-size: 1rem; max-width: 600px; }
+            .main-nav { padding: 1rem 0;}
+            .nav-link { padding: 0.5rem 0.75rem; font-size: 0.85rem;}
+            .skill-grid { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; }
+            .skill-node { padding: 1rem 0.75rem; font-size: 0.9rem;}
+            .skill-node svg { width: 24px; height: 24px; }
+            .timeline::after { left: 50%; margin-left: -1.25px; } /* Centered line for desktop */
+            .timeline-item { width: 50%; padding: 10px 20px; }
+            .timeline-item:nth-child(odd) { left: 0; padding-left: 20px; padding-right: 40px; /* Adjust padding for side */ }
+            .timeline-item:nth-child(even) { left: 50%; padding-left: 40px; padding-right: 20px; /* Adjust padding for side */ }
+            .timeline-item::after { width: 16px; height: 16px; border-width: 3px; top: 25px; box-shadow: 0 0 10px var(--accent-glow);}
+            .timeline-item:nth-child(odd)::after { right: -8px; left: auto; }
+            .timeline-item:nth-child(even)::after { left: -8px; right: auto; }
+            .timeline-content { padding: 1.25rem; }
+            .timeline-content h3 { font-size: 1.1rem; }
+            .timeline-date { font-size: 0.85rem; }
+            .project-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; } /* Larger min for projects on sm+ */
+            .project-card .content-card { padding: 1.25rem; }
+            .project-card h3 { font-size: 1.2rem; }
+            .project-card .text-text-medium { font-size: 0.9rem; }
+            .project-card .kaggle-rank { font-size: 0.85rem; }
+            .btn-primary { padding: 0.75rem 1.5rem; font-size: 0.95rem; }
         }
-         @media (max-width: 480px) { /* Smaller mobile devices */
-            .content-card { padding: 1rem; }
-            .timeline-content { padding: 1rem; }
-            .project-card .content-card { padding: 1rem; }
-            .hero-name { font-size: 2rem; }
-            .hero-title { font-size: 1rem; }
-            .hero-subtitle { font-size: 0.9rem;}
-            .section-title { font-size: 1.6rem; margin-bottom: 2rem;}
-            .nav-link { font-size: 0.8rem; padding: 0.5rem 0.6rem;}
-            .skill-grid { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 0.75rem;}
-            .skill-node { padding: 0.75rem 0.5rem; font-size: 0.85rem;}
+        
+        @media (min-width: 768px) { /* md */
+             /* Override nav link spacing for md and up if they were too cramped by flex-wrap on sm */
+            .main-nav .container .flex { /* Target the flex container for nav links */
+                flex-wrap: nowrap; /* Prevent wrapping on md+ */
+            }
+             .project-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));}
         }
 
 
         /* Footer */
         footer {
             text-align: center;
-            padding: 2rem 1rem;
-            margin-top: 3rem;
+            padding: 1.5rem 1rem; /* Reduced padding */
+            margin-top: 2.5rem; /* Reduced margin */
             border-top: 1px solid rgba(0, 169, 255, 0.15);
             color: var(--text-medium);
-            font-size: 0.9rem;
+            font-size: 0.85rem; /* Reduced font size */
         }
         footer a {
             color: var(--primary-color);
@@ -397,9 +376,10 @@
     <canvas id="neuralNetworkCanvas" class="neural-bg"></canvas>
 
     <nav class="main-nav">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-center sm:justify-between items-center">
-            <a href="#" class="text-lg sm:text-xl font-bold text-white hidden sm:block sm:mr-4 lg:mr-8">Siddhant Bashisth</a>
-            <div class="flex space-x-2 sm:space-x-3 lg:space-x-4"> <a href="#profile" class="nav-link">Profile</a>
+        <div class="container mx-auto px-2 sm:px-4 lg:px-8 flex flex-col sm:flex-row justify-center sm:justify-between items-center">
+            <a href="#" class="text-base sm:text-lg font-bold text-white mb-2 sm:mb-0 sm:mr-2 lg:mr-6">Siddhant Bashisth</a>
+            <div class="flex flex-wrap justify-center gap-1 sm:gap-2 lg:gap-3"> 
+                <a href="#profile" class="nav-link">Profile</a>
                 <a href="#experience" class="nav-link">Experience</a>
                 <a href="#projects" class="nav-link">Projects</a>
                 <a href="#skills" class="nav-link">Skills</a>
@@ -415,62 +395,66 @@
         <p class="hero-subtitle">
             Driven by the intersection of data and innovation, transforming complex problems into impactful machine learning solutions.
         </p>
-         <a href="#profile" class="mt-8 btn-primary opacity-0" style="animation: fadeInSlideUp 1s ease-out 0.9s forwards;">Explore My Work</a>
+         <a href="#profile" class="mt-6 btn-primary opacity-0" style="animation: fadeInSlideUp 1s ease-out 0.9s forwards;">Explore My Work</a>
     </header>
 
     <main>
-        <section id="profile" class="py-12 lg:py-20 section-container"> <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="profile" class="py-10 lg:py-16 section-container"> 
+            <div class="container mx-auto px-3 sm:px-4 lg:px-8">
                 <h2 class="section-title">01 // Profile</h2>
-                <div class="content-card profile-card-padding max-w-3xl mx-auto text-center"> <p class="text-base sm:text-lg"> As a machine learning engineer with a strong foundation in mathematics, I am driven by the intersection of data and innovation. My passion for problem-solving and analytical thinking fuels my ability to develop robust machine learning models that deliver impactful results. I am committed to staying at the forefront of technological advancements and leveraging my skills to contribute to cutting-edge projects.
+                <div class="content-card max-w-3xl mx-auto text-center"> 
+                    <p class="text-sm sm:text-base"> 
+                        As a machine learning engineer with a strong foundation in mathematics, I am driven by the intersection of data and innovation. My passion for problem-solving and analytical thinking fuels my ability to develop robust machine learning models that deliver impactful results. I am committed to staying at the forefront of technological advancements and leveraging my skills to contribute to cutting-edge projects.
                     </p>
                 </div>
             </div>
         </section>
 
-        <section id="experience" class="py-12 lg:py-20 bg-bg-medium section-container">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="experience" class="py-10 lg:py-16 bg-bg-medium section-container">
+            <div class="container mx-auto px-3 sm:px-4 lg:px-8">
                 <h2 class="section-title">02 // Experience</h2>
                 <div class="timeline">
                     <div class="timeline-item">
                         <div class="timeline-content content-card">
                             <span class="timeline-date">MAY 2024 - JUNE 2024</span>
                             <h3>Machine Learning Engineer Intern</h3>
-                            <p class="font-semibold text-text-light mb-2 text-sm sm:text-base">Cosmic Technologies</p>
-                            <ul class="list-disc list-inside text-text-medium text-xs sm:text-sm space-y-1">
+                            <p class="font-semibold text-text-light mb-1 text-sm">Cosmic Technologies</p>
+                            <ul class="list-disc list-inside text-text-medium space-y-1">
                                 <li>Developed a real-time theft detection system utilizing machine learning and computer vision to analyze CCTV footage.</li>
                                 <li>The model identifies suspicious activities and promptly alerts security personnel, thereby enhancing surveillance efficiency and reducing response time.</li>
                                 <li>Employed deep learning techniques for object detection, tracking, and anomaly recognition, resulting in high accuracy in challenging environments.</li>
                             </ul>
                         </div>
                     </div>
-                    </div>
+                </div>
             </div>
         </section>
 
-        <section id="projects" class="py-12 lg:py-20 section-container">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="projects" class="py-10 lg:py-16 section-container">
+            <div class="container mx-auto px-3 sm:px-4 lg:px-8">
                 <h2 class="section-title">03 // Projects & Achievements</h2>
                 <div class="project-grid">
-                    <div class="content-card project-card"> <h3>Quant Portfolio Optimizer</h3>
-                        <p class="text-text-medium mb-2">Developed a machine learning model for quantitative trading in the Japanese stock market, ranking ~2,000 stocks based on predicted returns. The model demonstrated strong predictive accuracy, showcasing its potential for programmatic investment and market analysis.</p>
+                    <div class="content-card project-card"> 
+                        <h3>Quant Portfolio Optimizer</h3>
+                        <p class="text-text-medium mb-1">Developed a machine learning model for quantitative trading in the Japanese stock market, ranking ~2,000 stocks based on predicted returns. The model demonstrated strong predictive accuracy, showcasing its potential for programmatic investment and market analysis.</p>
                         <span class="kaggle-rank">Kaggle Rank: 108 / 2033 (Japan Exchange Group Competition)</span>
                     </div>
                     <div class="content-card project-card">
                         <h3>Ventilator Pressure Prediction</h3>
-                        <p class="text-text-medium mb-2">Contributed to a Kaggle competition by Google Brain, developing an ML model to accurately predict ventilator pressure for patients.</p>
+                        <p class="text-text-medium mb-1">Contributed to a Kaggle competition by Google Brain, developing an ML model to accurately predict ventilator pressure for patients.</p>
                         <span class="kaggle-rank">Kaggle Rank: 714 / 2605</span>
                     </div>
                     <div class="content-card project-card">
                         <h3>Code-Comment Relationship Analysis</h3>
-                        <p class="text-text-medium mb-2">Participated in a Kaggle competition by Google and X, creating an ML model to understand and map the relationship between code and comments in Python notebooks.</p>
+                        <p class="text-text-medium mb-1">Participated in a Kaggle competition by Google and X, creating an ML model to understand and map the relationship between code and comments in Python notebooks.</p>
                         <span class="kaggle-rank">Kaggle Rank: 491 / 1135</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="skills" class="py-12 lg:py-20 bg-bg-medium section-container">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="skills" class="py-10 lg:py-16 bg-bg-medium section-container">
+            <div class="container mx-auto px-3 sm:px-4 lg:px-8">
                 <h2 class="section-title">04 // Core Skills</h2>
                 <div class="content-card max-w-4xl mx-auto">
                     <div class="skill-grid">
@@ -489,44 +473,45 @@
             </div>
         </section>
 
-        <section id="education" class="py-12 lg:py-20 section-container">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="education" class="py-10 lg:py-16 section-container">
+            <div class="container mx-auto px-3 sm:px-4 lg:px-8">
                 <h2 class="section-title">05 // Education</h2>
                 <div class="timeline">
                      <div class="timeline-item">
                         <div class="timeline-content content-card">
                             <span class="timeline-date">NOVEMBER 2022 - APRIL 2026 (Expected)</span>
                             <h3>B.Tech in Computer Science Engineering (AI & ML)</h3>
-                            <p class="font-semibold text-text-light mb-2 text-sm sm:text-base">Institute of Engineering and Science, IPS Academy, Indore</p>
-                            <p class="text-text-medium text-xs sm:text-sm">Focusing on artificial intelligence, machine learning algorithms, data structures, and software development.</p>
+                            <p class="font-semibold text-text-light mb-1 text-sm">Institute of Engineering and Science, IPS Academy, Indore</p>
+                            <p class="text-text-medium">Focusing on artificial intelligence, machine learning algorithms, data structures, and software development.</p>
                         </div>
                     </div>
-                    </div>
+                </div>
             </div>
         </section>
 
-        <section id="contact" class="py-12 lg:py-20 bg-bg-medium section-container">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <section id="contact" class="py-10 lg:py-16 bg-bg-medium section-container">
+            <div class="container mx-auto px-3 sm:px-4 lg:px-8 text-center">
                 <h2 class="section-title">06 // Get In Touch</h2>
                 <div class="content-card max-w-xl mx-auto">
-                    <p class="text-base sm:text-lg text-text-medium mb-6">
+                    <p class="text-sm sm:text-base text-text-medium mb-4">
                         I'm always excited to discuss new projects, collaborations, or opportunities in the field of machine learning.
                     </p>
-                    <a href="mailto:siddhantbashisth@gmail.com" class="btn-primary text-sm sm:text-lg"> siddhantbashisth@gmail.com
+                    <a href="mailto:siddhantbashisth@gmail.com" class="btn-primary text-xs sm:text-sm"> siddhantbashisth@gmail.com
                     </a>
-                    <p class="mt-6 text-text-medium text-xs sm:text-sm">
+                    <p class="mt-4 text-text-medium text-xs sm:text-sm">
                         Silicon City, Rajendra Nagar, Indore, 452012
                         </p>
-                    <div class="mt-6 flex justify-center space-x-4 sm:space-x-6"> <a href="#" class="text-primary-color hover:text-secondary-color transition-colors" aria-label="LinkedIn Profile">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16"> <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S1.2 3.273 1.2 3.981c0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/>
+                    <div class="mt-4 flex justify-center gap-3 sm:gap-4"> 
+                        <a href="#" class="text-primary-color hover:text-secondary-color transition-colors" aria-label="LinkedIn Profile">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16"> <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S1.2 3.273 1.2 3.981c0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/>
                             </svg>
                         </a>
                         <a href="#" class="text-primary-color hover:text-secondary-color transition-colors" aria-label="GitHub Profile">
-                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16"> <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/>
+                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16"> <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/>
                             </svg>
                         </a>
                         <a href="#" class="text-primary-color hover:text-secondary-color transition-colors" aria-label="Kaggle Profile">
-                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-kanban" viewBox="0 0 16 16"> <path d="M13.5 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM11 6.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v6a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5zm-3 0a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v4a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5zm-3 0a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5z"/>
+                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-kanban" viewBox="0 0 16 16"> <path d="M13.5 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM11 6.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v6a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5zm-3 0a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v4a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5zm-3 0a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5z"/>
                             </svg>
                         </a>
                     </div>
@@ -569,32 +554,35 @@
                 });
             });
 
-            // Intersection Observer for animating elements on scroll
             const observerOptions = {
                 root: null, 
                 rootMargin: '0px',
-                threshold: 0.1 
+                threshold: 0.05 // Trigger a bit earlier
             };
 
             const observerCallback = (entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('is-visible');
-                        // observer.unobserve(entry.target); // Optional: stop observing after first animation
                     } else {
-                        // entry.target.classList.remove('is-visible'); // Optional: re-animate on scroll up
+                        // If you want animations to re-trigger on scroll up:
+                        // entry.target.classList.remove('is-visible');
                     }
                 });
             };
 
             const observer = new IntersectionObserver(observerCallback, observerOptions);
-            document.querySelectorAll('.content-card, .section-title, .timeline-item, .timeline').forEach(el => {
+            document.querySelectorAll('.content-card, .section-title, .timeline-item').forEach(el => {
                 observer.observe(el);
             });
+             // Observe timeline separately if its animation is tied to its own visibility
+            const timelineEl = document.querySelector('.timeline');
+            if (timelineEl) {
+                observer.observe(timelineEl);
+            }
             
             document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-            // Neural Network Background Animation
             const canvas = document.getElementById('neuralNetworkCanvas');
             const ctx = canvas.getContext('2d');
             let particlesArray;
@@ -603,8 +591,7 @@
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
             }
-            setCanvasSize(); 
-
+            
             class Particle {
                 constructor(x, y, size, color, weight) {
                     this.x = x;
@@ -620,69 +607,64 @@
                     ctx.fill();
                 }
                 update() {
-                    this.size -= 0.03; 
-                    if (this.size < 0) { 
+                    this.size -= 0.02; // Slower shrink
+                    if (this.size <= 0.1) { // Reset when very small
                         this.x = (Math.random() * canvas.width);
-                        this.y = (Math.random() * canvas.height);
-                        this.size = (Math.random() * 3) + 1.5; // Ensure particles are not too small initially
-                        this.weight = (Math.random() * 1) - 0.5; 
+                        this.y = (Math.random() * canvas.height * 0.8); // Start higher up
+                        this.size = (Math.random() * 2) + 1; // Smaller reset size
+                        this.weight = (Math.random() * 0.5) - 0.15; // Slightly positive bias for downward drift
                     }
                     this.y += this.weight; 
-                    this.weight += 0.005; // Slower acceleration
+                    this.weight += 0.003; // Very slow acceleration
 
-                    if (this.y > canvas.height - this.size && this.weight > 0.1) { // Adjusted bounce condition
-                         this.weight *= -0.3; 
+                    if (this.y > canvas.height - this.size && this.weight > 0.05) { 
+                         this.weight *= -0.2; // Softer bounce
                     }
-                     // Keep particles within horizontal bounds slightly more gently
+                    if (this.x > canvas.width - this.size ) {
+                        this.x = canvas.width - this.size;
+                    }
                     if (this.x < this.size) {
                         this.x = this.size;
-                        // this.weightX *= -1; // Optional: bounce off sides
-                    } else if (this.x > canvas.width - this.size) {
-                        this.x = canvas.width - this.size;
-                        // this.weightX *= -1; // Optional: bounce off sides
                     }
                 }
             }
 
             function initParticles() {
                 particlesArray = [];
-                let numberOfParticles = (canvas.width * canvas.height) / 10000; // Adjusted density
-                numberOfParticles = Math.min(numberOfParticles, 120); // Adjusted max particles
-                numberOfParticles = Math.max(numberOfParticles, 50); // Ensure a minimum number of particles
+                let numberOfParticles = (canvas.width * canvas.height) / 12000; // Further reduced density
+                numberOfParticles = Math.min(numberOfParticles, 80); 
+                numberOfParticles = Math.max(numberOfParticles, 30); 
 
                 for (let i = 0; i < numberOfParticles; i++) {
-                    let size = (Math.random() * 2.5) + 1; // Slightly smaller max size
-                    let x = (Math.random() * (canvas.width - size * 2)) + size; // Ensure within bounds
-                    let y = (Math.random() * (canvas.height - size * 2)) + size; // Ensure within bounds
-                    let color = 'rgba(0, 169, 255, ' + (Math.random() * 0.25 + 0.05) + ')'; // More subtle opacity
-                    let weight = Math.random() * 0.4 - 0.2; // Slower initial movement
+                    let size = (Math.random() * 1.5) + 0.5; // Smaller particles
+                    let x = (Math.random() * (canvas.width - size * 2)) + size; 
+                    let y = (Math.random() * (canvas.height - size * 2)) + size; 
+                    let color = 'rgba(0, 169, 255, ' + (Math.random() * 0.2 + 0.05) + ')'; 
+                    let weight = Math.random() * 0.3 - 0.1; 
                     particlesArray.push(new Particle(x, y, size, color, weight));
                 }
             }
-            initParticles(); 
-
+            
+            let animationFrameId;
             function animateParticles() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height); 
-                for (let i = 0; i < particlesArray.length; i++) {
-                    particlesArray[i].update();
-                    particlesArray[i].draw();
+                if (particlesArray) { // Ensure particlesArray is initialized
+                    for (let i = 0; i < particlesArray.length; i++) {
+                        particlesArray[i].update();
+                        particlesArray[i].draw();
+                    }
+                    connectParticles(); 
                 }
-                connectParticles(); 
-                requestAnimationFrame(animateParticles); 
+                animationFrameId = requestAnimationFrame(animateParticles); 
             }
             
-            // Start animation only when window is loaded to ensure canvas is ready
-            window.onload = function() {
-                animateParticles();
-            };
-
-
             function connectParticles() {
                 let opacityValue = 1;
-                const connectDistance = Math.min(canvas.width / 10, canvas.height / 10, 90); // Dynamic connect distance
+                const connectDistance = Math.min(canvas.width / 12, canvas.height / 12, 70); // Reduced connect distance
 
                 for (let a = 0; a < particlesArray.length; a++) {
                     for (let b = a; b < particlesArray.length; b++) {
+                        if (!particlesArray[a] || !particlesArray[b]) continue; // Safety check
                         let distance = Math.sqrt(
                             ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
                             + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y))
@@ -690,8 +672,8 @@
                         
                         if (distance < connectDistance) { 
                             opacityValue = 1 - (distance / connectDistance); 
-                            ctx.strokeStyle = 'rgba(137, 0, 255,' + opacityValue * 0.15 + ')'; // More subtle line opacity
-                            ctx.lineWidth = 0.3; // Thinner lines
+                            ctx.strokeStyle = 'rgba(137, 0, 255,' + opacityValue * 0.1 + ')'; // Very subtle lines
+                            ctx.lineWidth = 0.2; 
                             ctx.beginPath();
                             ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
                             ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
@@ -700,10 +682,22 @@
                     }
                 }
             }
-            
-            window.addEventListener('resize', () => {
+
+            function setupAnimation() {
                 setCanvasSize();
-                initParticles(); 
+                initParticles();
+                if (animationFrameId) {
+                    cancelAnimationFrame(animationFrameId);
+                }
+                animateParticles();
+            }
+
+            setupAnimation(); // Initial setup
+            
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(setupAnimation, 100); // Debounce resize
             });
 
         });
