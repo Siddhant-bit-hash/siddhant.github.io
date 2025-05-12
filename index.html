@@ -446,14 +446,14 @@
                 max-width: 48rem; /* Tailwind's max-w-3xl equivalent or larger */
             }
             /* Consider two-column layout for projects or skills on very wide screens if desired */
-            #projects .max-w-xl.mx-auto.space-y-6 { /* Target project container specifically */
+            #projects .max-w-xl.mx-auto.space-y-6 { 
                 display: grid;
                 grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
                 gap: 2rem;
                 max-width: 64rem; /* max-w-6xl */
             }
-             #projects .data-card { /* Ensure project cards fill grid cells */
-                margin-bottom: 0; /* Remove bottom margin as gap handles it */
+             #projects .data-card { 
+                margin-bottom: 0; 
             }
         }
 
@@ -506,7 +506,7 @@
 
         <section id="projects" class="content-section">
             <div class="section-title-wrapper"><h2 class="section-title">Project_Archives</h2></div>
-            <div class="max-w-xl mx-auto space-y-6"> {/* This container will become a grid on desktop */}
+            <div class="max-w-xl mx-auto space-y-6"> 
                 <div class="data-card">
                     <h3>Quant Portfolio Optimizer</h3>
                     <p class="subtitle">Kaggle Competition: Japan Exchange Group</p>
@@ -570,7 +570,7 @@
                     Email: siddhantbashisth@gmail.com
                 </a>
                 <p class="text-sm text-text-dark font-mono mb-4">
-                    Location: Indore, India <br> Phone: +91 6262910920
+                    Location: Indore, India
                 </p>
                 <div class="contact-links">
                      <a href="https://www.linkedin.com/in/your-linkedin" target="_blank" rel="noopener noreferrer" title="LinkedIn">
