@@ -440,4 +440,173 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Smooth scroll & Active Nav Link
             const navLinks = document.querySelectorAll('.nav-link');
-            const sections = document.querySelectorAll
+            const sections = document.querySelectorAll('.content-section, .hero-section'); // Include hero for initial active state
+            let navHeight = document.querySelector('.main-nav').offsetHeight;
+
+            navLinks.forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        let targetPosition = targetElement.offsetTop - navHeight + 1; // +1 for better active state trigger
+                         if (targetId === '#profile' || targetId === '.hero-section') targetPosition = 0; // Scroll to top for first section
+
+                        window.scrollTo({
+                             top: targetPosition,
+                             behavior: "smooth"
+                        });
+                    }
+                });
+            });
+
+            function updateActiveNavLink() {
+                navHeight = document.querySelector('.main-nav').offsetHeight; // Recalculate in case of resize
+                let currentSectionId = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - navHeight - 50; // Adjusted offset for earlier trigger
+                    const sectionBottom = sectionTop + section.offsetHeight;
+                    if (window.scrollY >= sectionTop && window.scrollY < sectionBottom) {
+                        currentSectionId = '#' + section.id;
+                    }
+                });
+                 // Special case for hero section if no other section is active (top of page)
+                if (!currentSectionId && window.scrollY < sections[1].offsetTop - navHeight - 50) {
+                   currentSectionId = navLinks[0].getAttribute('href'); // Default to first nav link (Profile)
+                }
+
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === currentSectionId) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            window.addEventListener('scroll', updateActiveNavLink);
+            updateActiveNavLink(); // Initial call
+
+
+            // Intersection Observer for animating elements on scroll
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -10% 0px', // Trigger when 10% from bottom is visible
+                threshold: 0.1
+            };
+
+            const observerCallback = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        // observer.unobserve(entry.target); // Keep observing
+                    } else {
+                        // Optional: remove class if you want animation to re-trigger on scroll up
+                        // entry.target.classList.remove('is-visible');
+                    }
+                });
+            };
+
+            const observer = new IntersectionObserver(observerCallback, observerOptions);
+            document.querySelectorAll('.data-card, .section-title').forEach(el => {
+                observer.observe(el);
+            });
+            
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            // Canvas Background Animation
+            const canvas = document.getElementById('mainCanvas');
+            const ctx = canvas.getContext('2d');
+            let particlesArray = [];
+            const numberOfParticles = Math.min(50, Math.floor(window.innerWidth / 20)); // Fewer particles for mobile
+
+            function setCanvasSize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            setCanvasSize();
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 1.5 + 0.5; // Smaller particles
+                    this.speedX = (Math.random() * 0.4 - 0.2); // Slower speeds
+                    this.speedY = (Math.random() * 0.4 - 0.2);
+                    this.color = `rgba(0, 207, 232, ${Math.random() * 0.3 + 0.05})`; // Fainter primary color
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+
+                    if (this.size > 0.1) this.size -= 0.005; // Slowly shrink
+
+                    if (this.size <= 0.1) { // Reset particle
+                        this.x = Math.random() * canvas.width;
+                        this.y = Math.random() * canvas.height;
+                        this.size = Math.random() * 1.5 + 0.5;
+                        this.speedX = (Math.random() * 0.4 - 0.2);
+                        this.speedY = (Math.random() * 0.4 - 0.2);
+                    }
+                     // Boundary check (wrap around)
+                    if (this.x > canvas.width + this.size) this.x = -this.size;
+                    if (this.x < -this.size) this.x = canvas.width + this.size;
+                    if (this.y > canvas.height + this.size) this.y = -this.size;
+                    if (this.y < -this.size) this.y = canvas.height + this.size;
+                }
+                draw() {
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            function initParticles() {
+                particlesArray = [];
+                for (let i = 0; i < numberOfParticles; i++) {
+                    particlesArray.push(new Particle());
+                }
+            }
+            initParticles();
+
+            function connectParticles() {
+                let opacityValue = 1;
+                const maxConnectDistance = Math.min(80, window.innerWidth / 5); // Shorter connect distance for mobile
+                for (let a = 0; a < particlesArray.length; a++) {
+                    for (let b = a + 1; b < particlesArray.length; b++) { // Start b from a+1 to avoid duplicate lines and self-connection
+                        let distance = Math.sqrt(
+                            ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
+                            + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y))
+                        );
+                        if (distance < maxConnectDistance) {
+                            opacityValue = 1 - (distance / maxConnectDistance);
+                            ctx.strokeStyle = `rgba(160, 32, 240, ${opacityValue * 0.15})`; // Fainter secondary color for lines
+                            ctx.lineWidth = 0.2; // Thinner lines
+                            ctx.beginPath();
+                            ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                            ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            function animateCanvas() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (let i = 0; i < particlesArray.length; i++) {
+                    particlesArray[i].update();
+                    particlesArray[i].draw();
+                }
+                connectParticles();
+                requestAnimationFrame(animateCanvas);
+            }
+            animateCanvas();
+            
+            window.addEventListener('resize', () => {
+                setCanvasSize();
+                initParticles(); 
+            });
+        });
+    </script>
+</body>
+</html>
